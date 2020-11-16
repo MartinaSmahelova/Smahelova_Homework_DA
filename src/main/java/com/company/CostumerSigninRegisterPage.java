@@ -10,11 +10,12 @@ public class CostumerSigninRegisterPage {
     By costumerSigninPasswordLocator = By.id("signin_password");
     By signinButtonLocator = By.id("genericLogin-button");
     By loginErrorAlertLocator = By.id("loginError");
+    By registerButtonLocator = By.xpath("//*[@class=\"btn btn-default login-btn\" and text()=\"Register\"]");
 
     public CostumerSigninRegisterPage(WebDriver webBrowser) {
         browser = webBrowser;
-        System.out.println("Navigate browser to page where costumers could Sign in or Resgister:" +
-                " https://czechitas-shopizer.azurewebsites.net/shop/customer/customLogon.html");
+        System.out.println("Navigate browser to page where costumers could Sign in or Resgister: " +
+                costumerSigninRegisterPageUrl);
         browser.navigate().to(costumerSigninRegisterPageUrl);
     }
 
@@ -34,18 +35,18 @@ public class CostumerSigninRegisterPage {
     Viem, že v tejto chvíly sa neviem prihlásiť na stránku registrovaných zákazníkov, ale predpokladám, že existuje a tak
     si vytváram už rovno možnosť, že po prihlásení ma to na ňu presmeruje a pokiaľ sa tak stane, možem s ňou Ďalej pracovať.
     */
-    public RegisteredCostumerPage clickOnSigninButton() {
+    public CostumerMyAccountPage clickOnSigninButton() {
         System.out.println("Find Element Sign in button and clik on it.");
         WebElement signinButton = browser.findElement(signinButtonLocator);
         signinButton.click();
 
-        return new RegisteredCostumerPage(browser);
+        return new CostumerMyAccountPage(browser);
     }
 
     /*
     Metóda registrácie, pre testy kedy sa chcem priamo prihlásiť, bez použitia metód pre jednotlivé kroky
     */
-    public RegisteredCostumerPage signin (String userName, String password) {
+    public CostumerMyAccountPage signin (String userName, String password) {
         fillCostumerSigninEmail(userName);
         fillCostumerSigninPassword(password);
         return clickOnSigninButton();
@@ -62,6 +63,19 @@ public class CostumerSigninRegisterPage {
         WebElement loginErrorAlert = browser.findElement(loginErrorAlertLocator);
         String searchOutputText = loginErrorAlert.getText();
         return searchOutputText;
+    }
+
+   public RegistrationPage clickOnRegistrationButton(){
+        WebElement registrationButton = browser.findElement(registerButtonLocator);
+        registrationButton.click();
+
+        return new RegistrationPage(browser);
+   }
+
+    public String getCurrentUrl(){
+        System.out.println("Get current Url and compare it with: " + costumerSigninRegisterPageUrl);
+        String currentUrl = browser.getCurrentUrl();
+        return currentUrl;
     }
 
 }

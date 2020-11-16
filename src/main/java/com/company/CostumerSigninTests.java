@@ -38,7 +38,7 @@ public class CostumerSigninTests {
     }
 
     @Test
-    public void DirectSignin_InvalidCostumerEmailInvalidPassword_RoghtLoginFailedAllertIsShown() {
+    public void DirectSignin_InvalidCostumerEmailInvalidPassword_RightLoginFailedAllertIsShown() {
         CostumerSigninRegisterPage costumerSigninRegisterPage = new CostumerSigninRegisterPage(firefox);
 
         costumerSigninRegisterPage.signin("NonExistingCustomer","FakePass");
@@ -48,6 +48,29 @@ public class CostumerSigninTests {
                 "Login Failed. Username or Password is incorrect.", costumerSigninRegisterPage.textOfLoginFailedUserAlert());
     }
 
+    @Test
+    public void Valid_UserRegistration() throws InterruptedException {
+        CostumerSigninRegisterPage costumerSigninRegisterPage = new CostumerSigninRegisterPage(firefox);
+
+        RegistrationPage registrationPage = costumerSigninRegisterPage.clickOnRegistrationButton();
+        Assert.assertTrue(registrationPage.registrationPageUrl.equals(registrationPage.getCurrentUrl()));
+
+        CostumerMyAccountPage costumerMyAccountPage = registrationPage.registerUser("Björk","Guðmundsdóttir",
+                "Iceland","Akureyri","bjork.g@provider.cz","ilovepuffins","ilovepuffins");
+        Assert.assertTrue(costumerMyAccountPage.costumerMyAccountPageURL.equals(costumerMyAccountPage.getCurrentUrl()));
+        System.out.println("Find Element by id:main-content and find out that it is not null.");
+        Assert.assertNotNull(firefox.findElement(costumerMyAccountPage.elementToAssert));
+    }
+
+    @Test
+    public void DirectValidSignin_ValidCostumerEmaiValidPassword() {
+        CostumerSigninRegisterPage costumerSigninRegisterPage = new CostumerSigninRegisterPage(firefox);
+
+        CostumerMyAccountPage costumerMyAccountPage = costumerSigninRegisterPage.signin("bjork.g@provider.cz","ilovepuffins");
+        Assert.assertTrue(costumerMyAccountPage.costumerMyAccountPageURL.equals(costumerMyAccountPage.getCurrentUrl()));
+        System.out.println("Find Element by id:main-content and find out that it is not null.");
+        Assert.assertNotNull(firefox.findElement(costumerMyAccountPage.elementToAssert));
+    }
 
     @After
     public void CleanUp(){

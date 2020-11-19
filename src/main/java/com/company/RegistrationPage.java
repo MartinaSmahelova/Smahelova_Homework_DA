@@ -7,17 +7,16 @@ public class RegistrationPage {
 
     WebDriver browser;
     String registrationPageUrl = "https://czechitas-shopizer.azurewebsites.net/shop/customer/registration.html";
-    By firstNameLocator = By.id("firstName");
-    By lastNameLocator = By.id("lastName");
-    By dropDownCountryLocator = By.id("registration_country");
-    By dropDownStateProvinceNameLocator = By.id("customer_zones");
-    By StateProvinceNameLocator = By.id("hidden_zones");
-    By emailAdressLocator = By.id("emailAddress");
-    By passwordLocator = By.id("password");
-    By passwordValidationLocator = By.id("passwordAgain");
-    By createAnAccountButtonLocator = By.className("login-btn");
-    By registrationErrorAlertLocator = By.id("customer.errors");
-    JavascriptExecutor js = (JavascriptExecutor) browser;
+    By firstName = By.id("firstName");
+    By lastName = By.id("lastName");
+    By dropDownCountry = By.id("registration_country");
+    By dropDownStateOrProvinceName = By.id("customer_zones");
+    By StateProvinceName = By.id("hidden_zones");
+    By emailAdress = By.id("emailAddress");
+    By password = By.id("password");
+    By passwordValidation = By.id("passwordAgain");
+    By createAnAccountButton = By.className("login-btn");
+    By registrationErrorAlert = By.id("customer.errors");
 
 
     public RegistrationPage(WebDriver webBrowser) {
@@ -28,31 +27,26 @@ public class RegistrationPage {
 
     public void fillFirstName(String firstName) {
         System.out.println("Find Element First name and fill it by: " + firstName);
-        WebElement CostumerFirstName = browser.findElement(firstNameLocator);
-        CostumerFirstName.sendKeys(firstName);
+        browser.findElement(this.firstName).sendKeys(firstName);
     }
 
     public void fillLastName(String lastName) {
         System.out.println("Find Element Last name and fill it by: " + lastName);
-        WebElement CostumerLastName = browser.findElement(lastNameLocator);
-        CostumerLastName.sendKeys(lastName);
+        browser.findElement(this.lastName).sendKeys(lastName);
     }
 
     public void selectCountry(String countryName) {
         System.out.println("Find Element Country and from drop down menu select: " + countryName);
-        Select dropDownCountry = new Select(browser.findElement(dropDownCountryLocator));
-        dropDownCountry.selectByVisibleText(countryName);
+        new Select(browser.findElement(dropDownCountry)).selectByVisibleText(countryName);
     }
 
     public void selectOrFillStateProvince(String stateProvinceName){
-        WebElement dropDownStateProvince = browser.findElement(dropDownStateProvinceNameLocator);
+        WebElement dropDownStateProvince = browser.findElement(dropDownStateOrProvinceName);
         String stateProvinceText = dropDownStateProvince.getText();
         if (stateProvinceText.isEmpty()) {
-            WebElement stateProvince = browser.findElement(StateProvinceNameLocator);
-            stateProvince.sendKeys(stateProvinceName);
+            browser.findElement(StateProvinceName).sendKeys(stateProvinceName);
         } else {
-            Select dropDownStateProvinceSelect = new Select(browser.findElement(dropDownStateProvinceNameLocator));
-            dropDownStateProvinceSelect.selectByVisibleText(stateProvinceName);
+            new Select(browser.findElement(dropDownStateOrProvinceName)).selectByVisibleText(stateProvinceName);
         }
     }
 
@@ -65,20 +59,17 @@ public class RegistrationPage {
 
     public void fillEmailAddress(String emailAdress) {
         System.out.println("Find Element Email address and fill it by: " + emailAdress);
-        WebElement CostumerEmailAddress = browser.findElement(emailAdressLocator);
-        CostumerEmailAddress.sendKeys(emailAdress);
+        browser.findElement(this.emailAdress).sendKeys(emailAdress);
     }
 
     public void fillPassword(String password) {
         System.out.println("Find Element Password and fill it by: " + password);
-        WebElement CostumerPassword = browser.findElement(passwordLocator);
-        CostumerPassword.sendKeys(password);
+        browser.findElement(this.password).sendKeys(password);
     }
 
     public void fillPasswordAgain(String passwordAgain) {
         System.out.println("Find Element Repeat Password and fill it by: " + passwordAgain);
-        WebElement CostumerPasswordValiditation = browser.findElement(passwordValidationLocator);
-        CostumerPasswordValiditation.sendKeys(passwordAgain);
+        browser.findElement(passwordValidation).sendKeys(passwordAgain);
     }
 
     public void fillSignInInfromation (String emailAdress, String password, String passwordAgain){
@@ -89,8 +80,7 @@ public class RegistrationPage {
 
     public CostumerMyAccountPage clickOnCreateAnAccount() {
         System.out.println("Find Element Create an account button and clik on it.");
-        WebElement registrationButton = browser.findElement(createAnAccountButtonLocator);
-        registrationButton.click();
+        browser.findElement(createAnAccountButton).click();
 
         return new CostumerMyAccountPage(browser);
     }
@@ -108,20 +98,17 @@ public class RegistrationPage {
 
     public boolean isRegistrationErrorAlertPresent(){
         System.out.println("When Element Registration Error Alert if found, return true.");
-        browser.findElement(registrationErrorAlertLocator);
+        browser.findElement(registrationErrorAlert);
         return true;
     }
 
     public String textOfRegistrationErrorAlert(){
         System.out.println("Find Element Registration Error Alert and get its text.");
-        WebElement registrationErrorAlert = browser.findElement(registrationErrorAlertLocator);
-        String searchOutputText = registrationErrorAlert.getText();
-        return searchOutputText;
+        return browser.findElement(registrationErrorAlert).getText();
     }
 
     public String getCurrentUrl(){
         System.out.println("Get current Url and compare it with: " + registrationPageUrl);
-        String currentUrl = browser.getCurrentUrl();
-        return currentUrl;
+        return browser.getCurrentUrl();
     }
 }

@@ -17,8 +17,7 @@ public class CostumerMyAccountPage {
 
     public String getCurrentUrl(){
         System.out.println("Get current Url and compare it with: " + costumerMyAccountPageURL);
-        String currentUrl = browser.getCurrentUrl();
-        return currentUrl;
+        return browser.getCurrentUrl();
     }
 
 }

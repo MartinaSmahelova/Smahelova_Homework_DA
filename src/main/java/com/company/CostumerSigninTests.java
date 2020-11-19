@@ -49,18 +49,21 @@ public class CostumerSigninTests {
     }
 
     @Test
+    //Tento uživatel je již zaregistrván, pro ověření scénáře je potřeba zadat nové přihlašovací údaje
     public void Valid_UserRegistration() throws InterruptedException {
         CostumerSigninRegisterPage costumerSigninRegisterPage = new CostumerSigninRegisterPage(firefox);
 
         RegistrationPage registrationPage = costumerSigninRegisterPage.clickOnRegistrationButton();
-        Assert.assertTrue(registrationPage.registrationPageUrl.equals(registrationPage.getCurrentUrl()));
+        Assert.assertTrue("current url should be: https://czechitas-shopizer.azurewebsites.net/shop/customer/registration.html",
+                registrationPage.registrationPageUrl.equals(registrationPage.getCurrentUrl()));
 
         CostumerMyAccountPage costumerMyAccountPage = registrationPage.registerUser("Björk","Guðmundsdóttir",
                 "Iceland","Akureyri","bjork.g@provider.cz","ilovepuffins","ilovepuffins");
-        Assert.assertTrue(costumerMyAccountPage.costumerMyAccountPageURL.equals(costumerMyAccountPage.getCurrentUrl()));
-        System.out.println("Find Element by id:main-content and find out that it is not null.");
-        Assert.assertNotNull(firefox.findElement(costumerMyAccountPage.elementToAssert));
+        Assert.assertTrue("current url should be: https://czechitas-shopizer.azurewebsites.net/shop/customer/customLogon.html",
+                costumerMyAccountPage.costumerMyAccountPageURL.equals(costumerMyAccountPage.getCurrentUrl()));
+        Assert.assertNotNull("Find Element by id:main-content and find out that it is not null.",firefox.findElement(costumerMyAccountPage.elementToAssert));
     }
+
 
     @Test
     public void DirectValidSignin_ValidCostumerEmaiValidPassword() {
@@ -68,8 +71,7 @@ public class CostumerSigninTests {
 
         CostumerMyAccountPage costumerMyAccountPage = costumerSigninRegisterPage.signin("bjork.g@provider.cz","ilovepuffins");
         Assert.assertTrue(costumerMyAccountPage.costumerMyAccountPageURL.equals(costumerMyAccountPage.getCurrentUrl()));
-        System.out.println("Find Element by id:main-content and find out that it is not null.");
-        Assert.assertNotNull(firefox.findElement(costumerMyAccountPage.elementToAssert));
+        Assert.assertNotNull("Find Element by id:main-content and find out that it is not null.", firefox.findElement(costumerMyAccountPage.elementToAssert));
     }
 
     @After

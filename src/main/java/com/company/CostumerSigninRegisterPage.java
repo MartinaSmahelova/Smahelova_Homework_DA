@@ -28,11 +28,7 @@ public class CostumerSigninRegisterPage {
         System.out.println("Find Element Password and fill it by: " + costumerPassword);
         browser.findElement(costumerSigninPassword).sendKeys(costumerPassword);
     }
-
-    /*
-    Viem, že v tejto chvíly sa neviem prihlásiť na stránku registrovaných zákazníkov, ale predpokladám, že existuje a tak
-    si vytváram už rovno možnosť, že po prihlásení ma to na ňu presmeruje a pokiaľ sa tak stane, možem s ňou Ďalej pracovať.
-    */
+    
     public CostumerMyAccountPage clickOnSigninButton() {
         System.out.println("Find Element Sign in button and clik on it.");
        browser.findElement(signinButton).click();
